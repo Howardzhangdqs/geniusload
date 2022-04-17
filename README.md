@@ -65,7 +65,7 @@ geniusload.loadTree(option);
 
 1. 需要加载`jQuery`
 ```javascript
-geniusload.loadTree(["js", "jQuery"]);
+geniusload.loadTree(["js", "jquery.min.js"]);
 ```
 2. 需要加载`font-awesome`，并且`class`为`sheets`
 ```javascript
