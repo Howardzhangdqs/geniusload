@@ -214,8 +214,9 @@ geniusload.loadTree(option);
 `console`控制台输出：
 
 ```html
-[S XX:XX:XX.XXX GeniusLoad] <script src="jquery.min.js" type="text/javascript"></script>
-[E XX:XX:XX.XXX GeniusLoad] <script src="jquery.min.js" type="text/javascript"></script> which loaded for XX ms
+jQuery Start Loading
+[S XX:XX:XX.XXX GeniusLoad] <script class="js" id="jk" src="jquery.min.js" type="text/javascript"></script>
+[E XX:XX:XX.XXX GeniusLoad] <script class="js" id="jk" src="jquery.min.js" type="text/javascript"></script> which loaded for XX ms
 jQuery Loaded
 [S XX:XX:XX.XXX GeniusLoad] <script src="scrollmagic.min.js" type="text/javascript"></script>
 [S XX:XX:XX.XXX GeniusLoad] <script src="lazyload.min.js" type="text/javascript"></script>
