@@ -1,20 +1,20 @@
 # Genius Load 网页加载逻辑设置
 
-轻量且高效的网页外链（如：`JavaScript`、`CSS`等）加载逻辑设置工具，帮助您更加轻松地搭建自己的网页，避免出现未加载完依赖项而出现 `Uncaught ReferenceError: XXX is not defined` 的错误
+轻量且高效的网页外链（如：`JavaScript`、`CSS`等）加载逻辑设置工具，帮助您更加轻松地搭建自己的网页，避免出现因未加载完依赖项而出现 `Uncaught ReferenceError: XXX is not defined` 的错误
 
 ## 基本用法
 
 ### 引入
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.0.5/geniusload.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.0.4/geniusload.js"></script>
 ```
 或者
 ```html
-<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.0.5/geniusload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.0.4/geniusload.min.js"></script>
 ```
 
-==注意：如果需要使用geniusload加载的内容无需在网页代码中预先引入==
+注意：如果需要使用geniusload加载的内容无需在网页代码中预先引入
 
 ### 使用
 
@@ -29,11 +29,11 @@ geniusload.loadTree(option);
 <script>
     option = [...];
 </script>
-<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.0.5/geniusload.js" onload="geniusload.loadTree(option)"></script>
+<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.0.4/geniusload.js" onload="geniusload.loadTree(option)"></script>
 ```
 不推荐的写法：
 ```html
-<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.0.5/geniusload.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.0.4/geniusload.js"></script>
 <script>
     window.onload = function() {
         geniusload.loadTree([...]);
@@ -45,7 +45,7 @@ geniusload.loadTree(option);
 
 ### option配置项
 
-`geniusload@v1.0.x`暂时仅支持加载`Array`格式的配置。
+`geniusload@v1.0.4`暂时仅支持加载`Array`格式的配置。
 
 #### 嵌套加载加载单个外链
 
@@ -187,7 +187,7 @@ geniusload.loadTree(option);
 | `beforeload` | `function` |         该外链开始加载之前执行的函数         |
 | `afterload`  | `function` |          该外链加载完毕后执行的函数          |
 
-==**注意**==：如果同时声明`afterload`和`node_option`中的`afterload`，则后一次声明的项会覆盖前一次的声明。
+**注意**：如果同时声明`afterload`和`node_option`中的`afterload`，则后一次声明的项会覆盖前一次的声明。
 
 **样例**：
 
@@ -234,7 +234,7 @@ geniusload.consolelog = function() {};
 geniusload.loadTree(option);
 ```
 
-### ==注意事项==
+### 注意事项
 
 `geniusload v1.0.x`仅支持一次`geniusload.loadTree`，同一页面内多次`geniusload.loadTree`将会在`geniusload v1.1.x`系列中推出。
 
