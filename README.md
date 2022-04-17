@@ -7,11 +7,11 @@
 ### 引入
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.0.4/geniusload.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.0.5/geniusload.js"></script>
 ```
 或者
 ```html
-<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.0.4/geniusload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.0.5/geniusload.min.js"></script>
 ```
 
 注意：如果需要使用geniusload加载的内容无需在网页代码中预先引入
@@ -29,11 +29,11 @@ geniusload.loadTree(option);
 <script>
     option = [...];
 </script>
-<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.0.4/geniusload.js" onload="geniusload.loadTree(option)"></script>
+<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.0.5/geniusload.js" onload="geniusload.loadTree(option)"></script>
 ```
 不推荐的写法：
 ```html
-<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.0.4/geniusload.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.0.5/geniusload.js"></script>
 <script>
     window.onload = function() {
         geniusload.loadTree([...]);
@@ -45,7 +45,7 @@ geniusload.loadTree(option);
 
 ### option配置项
 
-`geniusload@v1.0.4`暂时仅支持加载`Array`格式的配置。
+`geniusload@v1.0.x`暂时仅支持加载`Array`格式的配置。
 
 #### 嵌套加载加载单个外链
 
