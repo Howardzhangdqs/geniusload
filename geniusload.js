@@ -1,3 +1,18 @@
+/*!
+ * Genius Load - JavaScript plugin for load logic
+ *
+ * Copyright (c) 2022 HowardZhangdqs
+ *
+ * Licensed under the MIT license:
+ *   http://www.opensource.org/licenses/mit-license.php
+ *
+ * Project home:
+ *   https://github.com/Howardzhangdqs/geniusload/
+ *
+ * Version: 1.0.5
+ *
+ */
+
 var geniusload = {
 	loadTree: function(obj, ifroot = true, fathernode = 0) {
 		if (ifroot) this.treeanalyze_adapter(obj), this.acknowledge_son();
