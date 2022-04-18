@@ -7,11 +7,11 @@
 ### 引入
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.1.1/geniusload.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.1.2/geniusload.js"></script>
 ```
 或者
 ```html
-<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.1.1/geniusload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.1.2/geniusload.min.js"></script>
 ```
 
 注意：如果需要使用geniusload加载的内容无需在网页代码中预先引入
@@ -40,11 +40,11 @@ geniusload.loadTree(option);
 <script>
     option = [...];
 </script>
-<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.1.1/geniusload.js" onload="new geniusload(option);"></script>
+<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.1.2/geniusload.js" onload="new geniusload(option);"></script>
 ```
 不推荐的写法：
 ```html
-<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.1.1/geniusload.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.1.2/geniusload.js"></script>
 <script>
     window.onload = function() {
         new geniusload([...]);

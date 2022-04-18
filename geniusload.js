@@ -9,19 +9,21 @@
  * Project home:
  *   https://github.com/Howardzhangdqs/geniusload/
  *
- * Version: 1.1.1
+ * Version: 1.1.2
  *
  */
 
 var geniusload = function(robj) {
-	this.loadTree = function(obj, ifroot = true, fathernode = 0) {
+	this.loadTree = function(obj, ifroot, fathernode) {
+		ifroot = ifroot || true; fathernode = fathernode || 0;
 		if (ifroot) this.treeanalyze_adapter(obj), this.acknowledge_son();
 		this.loaddfs(0);
 	};
 	
 	this.nodenum = 0;
 	
-	this.treeanalyze_adapter = function(obj, father = 0) {
+	this.treeanalyze_adapter = function(obj, father) {
+		father = father || 0;
 		if (typeof obj[0] == 'string') this.treeanalyze(obj, father);
 		else for (let i in obj) this.treeanalyze(obj[i], father);
 	};
@@ -195,26 +197,30 @@ var geniusload = function(robj) {
 		return {type: type, id: id, class: cla};
 	};
 	
+	this.ft = function(str, ph) {
+		str = "" + str;
+		for (let i = str.length; i < ph; i ++) str = "0" + str;
+		return str;
+	}
+	
 	this.consolelog = function(c, obj) {
 		let clt;
 		if (c == "E") {
 			clt = obj.endtime;
 			console.log("\x1B[38;2;0;217;61m[" + c + " " +
-				("" + parseInt(clt / 1000 / 60 / 60) % 60).padStart(2, "0") + ":" +
-				("" + parseInt(clt / 1000 / 60) % 60).padStart(2, "0") + ":" +
-				("" + parseInt(clt / 1000) % 60).padStart(2, "0") + "." +
-				("" + clt % 1000).padStart(3, "0") +
-				" GeniusLoad]\x1B[39m " + obj.outerHTML +
+				this.ft(parseInt(clt / 1000 / 60 / 60) % 60, 2) + ":" +
+				this.ft(parseInt(clt / 1000 / 60) % 60, 2) + ":" +
+				this.ft(parseInt(clt / 1000) % 60, 2) + "." +
+				this.ft(clt % 1000, 3) + " GeniusLoad]\x1B[39m " + obj.outerHTML +
 				" \x1B[38;2;0;217;61mwhich loaded for " + obj.lasttime + " ms\x1B[39m");
 			return;
 		}
 		clt = obj.starttime;
 		console.log("\x1B[38;2;100;100;197m[" + c + " " +
-			("" + parseInt(clt / 1000 / 60 / 60) % 60).padStart(2, "0") + ":" +
-			("" + parseInt(clt / 1000 / 60) % 60).padStart(2, "0") + ":" +
-			("" + parseInt(clt / 1000) % 60).padStart(2, "0") + "." +
-			("" + clt % 1000).padStart(3, "0") +
-			" GeniusLoad]\x1B[39m " + obj.outerHTML);
+			this.ft(parseInt(clt / 1000 / 60 / 60) % 60, 2) + ":" +
+			this.ft(parseInt(clt / 1000 / 60) % 60, 2) + ":" +
+			this.ft(parseInt(clt / 1000) % 60, 2) + "." +
+			this.ft(clt % 1000, 3) + " GeniusLoad]\x1B[39m " + obj.outerHTML);
 	};
 	
 	if (robj != undefined) this.loadTree(robj);
