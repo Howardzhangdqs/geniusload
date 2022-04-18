@@ -7,36 +7,47 @@
 ### 引入
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.0.5/geniusload.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.1.1/geniusload.js"></script>
 ```
 或者
 ```html
-<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.0.5/geniusload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.1.1/geniusload.min.js"></script>
 ```
 
 注意：如果需要使用geniusload加载的内容无需在网页代码中预先引入
 
 ### 使用
 
-`geniusload`提供一个`loadTree`函数，使用方法如下：
+**`v1.1.x` 新特性！**
+
+`v1.1.x`中的`geniusload`使用方法如下：
 
 ```javascript
+new geniusload(option);
+```
+
+该写法等价于`v1.0.x`中的
+
+```
 geniusload.loadTree(option);
 ```
 
+**注意**：`v1.0.x`中的该写法在`v1.1.x`中已不再支持。
+
 推荐的写法：
+
 ```html
 <script>
     option = [...];
 </script>
-<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.0.5/geniusload.js" onload="geniusload.loadTree(option)"></script>
+<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.1.1/geniusload.js" onload="new geniusload(option);"></script>
 ```
 不推荐的写法：
 ```html
-<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.0.5/geniusload.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.1.1/geniusload.js"></script>
 <script>
     window.onload = function() {
-        geniusload.loadTree([...]);
+        new geniusload([...]);
     }
 </script>
 ```
@@ -45,7 +56,7 @@ geniusload.loadTree(option);
 
 ### option配置项
 
-`geniusload@v1.0.x`暂时仅支持加载`Array`格式的配置。
+`geniusload@v1.1.x`暂时仅支持加载`Array`格式的配置。
 
 #### 嵌套加载加载单个外链
 
@@ -65,16 +76,16 @@ geniusload.loadTree(option);
 
 1. 需要加载`jQuery`
 ```javascript
-geniusload.loadTree(["js", "jquery.min.js"]);
+new geniusload(["js", "jquery.min.js"]);
 ```
 2. 需要加载`font-awesome`，并且`class`为`sheets`
 ```javascript
-geniusload.loadTree(["CSS.sheets", "font-awesome.css"]);
+new geniusload(["CSS.sheets", "font-awesome.css"]);
 ```
 3. 需要加载`fontawesome-webfont.woff`，并且`class`为`woff`，`id`为`fontawesome`
 ```javascript
 option = ["Font.woff#fontawesome", "Font Awesome 5 Free", "fontawesome-webfont.woff"];
-geniusload.loadTree(option);
+new geniusload(option);
 ```
 
 #### 同时加载多个外链
@@ -102,7 +113,7 @@ option = [
     ["Font.woff.font#Brands",  "Font Awesome 5 Brands",  "fa-brands-400.woff2"],
     ["Font.woff.font#Solid",   "Font Awesome 5 Solid",   "fa-solid-900.woff2"]
 ];
-geniusload.loadTree(option);
+new geniusload(option);
 ```
 
 #### 嵌套加载
@@ -125,7 +136,7 @@ geniusload.loadTree(option);
 
 ```javascript
 option = ["js", "jquery.min.js", ["js", "jquery-ui.custom.min.js"]];
-geniusload.loadTree(option);
+new geniusload(option);
 ```
 
 2. 加载`jQuery`后加载`ScrollMagic`、`Lazy Load`、`Chosen`
@@ -141,7 +152,7 @@ option = [
     ],
     ["css", "bootstrap.min.css", ["js", "bootstrap.min.js"]]
 ];
-geniusload.loadTree(option);
+new geniusload(option);
 ```
 
 #### 进阶配置项
@@ -208,7 +219,7 @@ option =
         }
     }
 ];
-geniusload.loadTree(option);
+new geniusload(option);
 ```
 
 `console`控制台输出：
@@ -231,13 +242,10 @@ jQuery Loaded
 关闭`console`控制台输出
 
 ```javascript
-geniusload.consolelog = function() {};
-geniusload.loadTree(option);
+let gl = new geniusload();
+gl.consolelog = function() {};
+gl.loadTree(option);
 ```
-
-### 注意事项
-
-`geniusload v1.0.x`仅支持一次`geniusload.loadTree`，同一页面内多次`geniusload.loadTree`将会在`geniusload v1.1.x`系列中推出。
 
 # License
 
