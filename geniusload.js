@@ -9,14 +9,14 @@
  * Project home:
  *   https://github.com/Howardzhangdqs/geniusload/
  *
- * Version: 1.1.2
+ * Version: 1.2.3
  *
  */
 
 var geniusload = function(robj) {
 	this.loadTree = function(obj, ifroot, fathernode) {
 		ifroot = ifroot || true; fathernode = fathernode || 0;
-		if (ifroot) this.treeanalyze_adapter(obj), this.acknowledge_son();
+		if (ifroot) this.treeanalyze_adapter(obj), this.preload(), this.acknowledge_son();
 		this.loaddfs(0);
 	};
 	
@@ -38,14 +38,17 @@ var geniusload = function(robj) {
 			type:       attrs.type,
 			id:         attrs.id,
 			class:      attrs.class,
-			construct:  (attrs.type == 2 ? [obj[1], obj[2]] : obj[1]),
+			construct:  (attrs.type == 2 ? [obj[1], obj[2]] : [obj[1]]),
 			beforeload: new Function(),
 			afterload:  new Function(),
 			childnode:  [],
 			fathernode: father,
 			starttime:  undefined,
 			endtime:    undefined,
-			lasttime:   undefined
+			lasttime:   undefined,
+			fatherlist: [],
+			fatherreal: [],
+			preload:    true
 		});
 		let _benchmark;
 		if (attrs.type == 0 || attrs.type == 1) _benchmark = 2;
@@ -66,12 +69,34 @@ var geniusload = function(robj) {
 		}
 	};
 	
+	this.preload_cache = [];
+	
+	this.preload = function() {
+		for (let i = 0; i < this.nodetree.length; i ++) {
+			if (this.nodetree[i].preload) {
+				let tpload = new Image();
+                tpload.src = (this.nodetree[i].type == 2 ? this.nodetree[i].construct[1] : this.nodetree[i].construct[0]);
+				this.preload_cache.push(tpload);
+			}
+		}
+	}
+	
 	this.acknowledge_son = function() {
 		for (let i = 0; i < this.nodetree.length; i ++) {
 			for (let j = 0; j < this.nodetree.length; j ++) {
+				for (let k = 0; k < this.nodetree[i].fatherlist.length; k ++) {
+					if (this.nodetree[i].fatherlist[k][0] == ".") {
+						if (this.nodetree[j].class == this.nodetree[i].fatherlist[k].slice(1)) {
+							this.nodetree[i].fatherreal.push(j); this.nodetree[j].childnode.push(i);
+						}
+					} else if (this.nodetree[i].fatherlist[k][0] == "#") {
+						if (this.nodetree[j].id == this.nodetree[i].fatherlist[k].slice(1)) {
+							this.nodetree[i].fatherreal.push(j); this.nodetree[j].childnode.push(i);
+						}
+					}
+				}
 				if (this.nodetree[i].fathernode == this.nodetree[j].n) {
-					this.nodetree[j].childnode.push(i);
-					break;
+					this.nodetree[j].childnode.push(i); this.nodetree[i].fatherreal.push(j);
 				}
 			}
 		}
@@ -84,12 +109,19 @@ var geniusload = function(robj) {
 	this.loaddfs = function(fa) {
 		if (fa != 0) {
 			let pnode = this.nodetree[fa];
+			if (pnode.loading && pnode.loaded) return;
+			
+			this.nodetree[fa].loading = true;
+			
+			for (let i in pnode.fatherreal) {
+				if (! this.nodetree[pnode.fatherreal[i]].loaded) return;
+			}
 			
 			if (pnode.type == 0) {
 				let Script = document.createElement('script');
 				if (pnode.id    != undefined) Script.setAttribute('id', pnode.id);
 				if (pnode.class != undefined) Script.setAttribute('class', pnode.class);
-				Script.setAttribute('src', pnode.construct);
+				Script.setAttribute('src', pnode.construct[0]);
 				Script.setAttribute('type', 'text/javascript');
 				
 				(this.nodetree[fa].beforeload)();
@@ -116,7 +148,7 @@ var geniusload = function(robj) {
 				let Script = document.createElement('link');
 				if (pnode.id  != undefined) Script.setAttribute('id', pnode.id);
 				if (pnode.cla != undefined) Script.setAttribute('class', pnode.cla);
-				Script.setAttribute('href', pnode.construct);
+				Script.setAttribute('href', pnode.construct[0]);
 				Script.setAttribute('rel', "stylesheet");
 				
 				(this.nodetree[fa].beforeload)();
@@ -170,7 +202,15 @@ var geniusload = function(robj) {
 		}
 	};
 	
-	this.nodetree = [{id: 0, childnode: [], n: 0}];
+	this.nodetree = [{
+		id: 0,
+		childnode: [],
+		n: 0,
+		fatherlist: [],
+		fatherreal: [],
+		loading:    false,
+		loaded:     true
+	}];
 	
 	this.nodeafter = function(pt, fa) {
 		this.nodetree[fa].endtime  = pt;

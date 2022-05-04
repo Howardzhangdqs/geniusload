@@ -1,20 +1,24 @@
 # Genius Load 网页加载逻辑设置
 
-轻量且高效的网页外链（如：`JavaScript`、`CSS`等）加载逻辑设置工具，帮助您更加轻松地搭建自己的网页，避免出现因未加载完依赖项而出现 `Uncaught ReferenceError: XXX is not defined` 的错误
+轻量且高效的网页外链（如：`JavaScript`、`CSS`等）加载逻辑设置工具，帮助您更加轻松地搭建自己的网页，避免出现因未加载完依赖项而出现 `Uncaught ReferenceError: XXX is not defined` 的错误。
+
+本工具无依赖项，兼容包括IE7+及其他常见浏览器。总大小仅5KB。
 
 ## 基本用法
 
-### 引入
+下载，并放置在网站中并引入
+
+或者使用JsdelivrCDN：
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.1.2/geniusload.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.2.3/geniusload.js"></script>
 ```
-或者
+或者使用压缩后的：
 ```html
-<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.1.2/geniusload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.2.3/geniusload.min.js"></script>
 ```
 
-注意：如果需要使用geniusload加载的内容无需在网页代码中预先引入
+**注意：如果需要使用geniusload加载的内容无需在网页代码中预先引入**
 
 ### 使用
 
@@ -40,11 +44,11 @@ geniusload.loadTree(option);
 <script>
     option = [...];
 </script>
-<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.1.2/geniusload.js" onload="new geniusload(option);"></script>
+<script src="geniusload.js" onload="new geniusload(option);"></script>
 ```
 不推荐的写法：
 ```html
-<script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.1.2/geniusload.js"></script>
+<script src="geniusload.js"></script>
 <script>
     window.onload = function() {
         new geniusload([...]);
@@ -56,7 +60,7 @@ geniusload.loadTree(option);
 
 ### option配置项
 
-`geniusload@v1.1.x`暂时仅支持加载`Array`格式的配置。
+`geniusload@v1.x`暂时仅支持加载`Array`格式的配置。
 
 #### 嵌套加载加载单个外链
 
@@ -184,40 +188,46 @@ new geniusload(option);
     id:         node_id,
     class:      node_class,
     beforeload: node_beforeload_function(),
-    afterload:  node_afterload_function()
+    afterload:  node_afterload_function(),
+    preload:    bool,
+    fatherlist: [...]  // v1.2.x 新特性
 }
 ```
 
 **含义**：
 
-|     名称     |    类型    |                     含义                     |
-| :----------: | :--------: | :------------------------------------------: |
-|    `type`    |  `string`  |  同 [加载单个外链](#加载单个外链) 中的`Tag`  |
-|     `id`     |  `string`  |  同 [加载单个外链](#加载单个外链) 中的`id`   |
-|   `class`    |  `string`  | 同 [加载单个外链](#加载单个外链) 中的`class` |
-| `beforeload` | `function` |         该外链开始加载之前执行的函数         |
-| `afterload`  | `function` |          该外链加载完毕后执行的函数          |
+|     名称     |    类型    |                       含义                        |
+| :----------: | :--------: | :-----------------------------------------------: |
+|    `type`    |  `string`  |    同 [加载单个外链](#加载单个外链) 中的`Tag`     |
+|     `id`     |  `string`  |     同 [加载单个外链](#加载单个外链) 中的`id`     |
+|   `class`    |  `string`  |   同 [加载单个外链](#加载单个外链) 中的`class`    |
+| `beforeload` | `function` |           该外链开始加载之前执行的函数            |
+| `afterload`  | `function` |            该外链加载完毕后执行的函数             |
+|  `preload`   |   `bool`   |                 是否预加载该外链                  |
+| `fatherlist` |  `array`   | 在加载完列表中指定的`class`或`id`的后再加载该外链 |
 
 **注意**：如果同时声明`afterload`和`node_option`中的`afterload`，则后一次声明的项会覆盖前一次的声明。
 
 **样例**：
 
-加载`jQuery`，`class`为`js`，`id`为`jk`，开始加载时输出`"jQuery Start Loading"`，加载完毕后输出`"jQuery Loaded"`，再加载`ScrollMagic`、`Lazy Load`、`Chosen`
+加载`jQuery`，`class`为`js`，`id`为`jk`，开始加载时输出`"jQuery Start Loading"`，加载完毕后输出`"jQuery Loaded"`，再加载`ScrollMagic`、`Lazy Load`、`Chosen`，`class`为`dependency`最后加载`main.js`
 ```javascript
-option = 
-["js", "jquery.min.js", [
-        ["js", "scrollmagic.min.js"],
-        ["js", "lazyload.min.js"],
-        ["js", "chosen.min.js"]
-    ], function() {
-        console.log("jQuery Loaded");
-    }, {
-        id: "jk",
-        class: "js",
-        beforeload: function() {
-            console.log("jQuery Start Loading");
+option = [
+    ["js", "jquery.min.js", [
+            ["js.dependency", "scrollmagic.min.js"],
+            ["js.dependency", "lazyload.min.js"],
+            ["js.dependency", "chosen.min.js"]
+        ], function() {
+            console.log("jQuery Loaded");
+        }, {
+            id: "jk",
+            class: "js",
+            beforeload: function() {
+                console.log("jQuery Start Loading");
+            }
         }
-    }
+    ],
+    ["js", "main.js", {fatherlist: [".dependency"]}]
 ];
 new geniusload(option);
 ```
@@ -229,12 +239,14 @@ jQuery Start Loading
 [S XX:XX:XX.XXX GeniusLoad] <script class="js" id="jk" src="jquery.min.js" type="text/javascript"></script>
 [E XX:XX:XX.XXX GeniusLoad] <script class="js" id="jk" src="jquery.min.js" type="text/javascript"></script> which loaded for XX ms
 jQuery Loaded
-[S XX:XX:XX.XXX GeniusLoad] <script src="scrollmagic.min.js" type="text/javascript"></script>
-[S XX:XX:XX.XXX GeniusLoad] <script src="lazyload.min.js" type="text/javascript"></script>
-[S XX:XX:XX.XXX GeniusLoad] <script src="chosen.min.js" type="text/javascript"></script>
-[E XX:XX:XX.XXX GeniusLoad] <script src="scrollmagic.min.js" type="text/javascript"></script> which loaded for XX ms
-[E XX:XX:XX.XXX GeniusLoad] <script src="lazyload.min.js" type="text/javascript"></script> which loaded for XX ms
-[E XX:XX:XX.XXX GeniusLoad] <script src="chosen.min.js" type="text/javascript"></script> which loaded for XX ms
+[S XX:XX:XX.XXX GeniusLoad] <script class="dependency" src="scrollmagic.min.js" type="text/javascript"></script>
+[S XX:XX:XX.XXX GeniusLoad] <script class="dependency" src="lazyload.min.js" type="text/javascript"></script>
+[S XX:XX:XX.XXX GeniusLoad] <script class="dependency" src="chosen.min.js" type="text/javascript"></script>
+[E XX:XX:XX.XXX GeniusLoad] <script class="dependency" src="scrollmagic.min.js" type="text/javascript"></script> which loaded for XX ms
+[E XX:XX:XX.XXX GeniusLoad] <script class="dependency" src="lazyload.min.js" type="text/javascript"></script> which loaded for XX ms
+[E XX:XX:XX.XXX GeniusLoad] <script class="dependency" src="chosen.min.js" type="text/javascript"></script> which loaded for XX ms
+[S XX:XX:XX.XXX GeniusLoad] <script src="main.js" type="text/javascript"></script>
+[E XX:XX:XX.XXX GeniusLoad] <script src="main.js" type="text/javascript"></script> which loaded for XX ms
 ```
 
 ### 其他用法
@@ -242,9 +254,9 @@ jQuery Loaded
 关闭`console`控制台输出
 
 ```javascript
-let gl = new geniusload();
-gl.consolelog = function() {};
-gl.loadTree(option);
+let geniusme = new geniusload();
+geniusme.consolelog = function() {};
+geniusme.loadTree([option]); // 在geniusme.loadTree()函数中放入加载项
 ```
 
 # License
