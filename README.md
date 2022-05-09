@@ -9,7 +9,9 @@
 
 下载，并放置在您的网站中后引入
 
-或者使用JsdelivrCDN：
+或者使用一些其他的CDN：
+
+（这里留给 <www.staticfile.org> 求求收录了）
 
 ```html
 <script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.2.3/geniusload.js"></script>
