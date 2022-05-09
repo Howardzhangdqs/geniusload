@@ -6,7 +6,7 @@
 
 ## 基本用法
 
-下载，并放置在网站中并引入
+下载，并放置在您的网站中后引入
 
 或者使用JsdelivrCDN：
 
@@ -258,6 +258,12 @@ let geniusme = new geniusload();
 geniusme.consolelog = function() {};
 geniusme.loadTree([option]); // 在geniusme.loadTree()函数中放入加载项
 ```
+
+## 新特性
+
+`v1.2.x`使用`new`方法调用，方便使用。
+
+`v1.2.x`自动外链预加载，加快调用速度，并且不会扰乱加载顺序。
 
 # License
 
