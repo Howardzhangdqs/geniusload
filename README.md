@@ -1,4 +1,5 @@
 # Genius Load 网页加载逻辑设置
+![GeniusLoad](https://user-images.githubusercontent.com/75195784/167329901-e66ce99f-679b-4add-b28e-140e6d254cdf.jpg)
 
 轻量且高效的网页外链（如：`JavaScript`、`CSS`等）加载逻辑设置工具，帮助您更加轻松地搭建自己的网页，避免出现因未加载完依赖项而出现 `Uncaught ReferenceError: XXX is not defined` 的错误。
 
