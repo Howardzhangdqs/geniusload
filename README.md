@@ -11,7 +11,7 @@
 
 或者使用一些其他的CDN：
 
-（这里留给 <www.staticfile.org> 求求收录了）
+（这里留给 www.staticfile.org 求求收录了）
 
 ```html
 <script src="https://cdn.jsdelivr.net/gh/HowardZhangdqs/geniusload@v1.2.3/geniusload.js"></script>
